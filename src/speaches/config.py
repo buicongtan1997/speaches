@@ -79,6 +79,12 @@ class Config(BaseSettings):
     """
     host: str = Field(alias="UVICORN_HOST", default="0.0.0.0")
     port: int = Field(alias="UVICORN_PORT", default=8000)
+    uds: str | None = Field(alias="UVICORN_UDS", default=None)
+    """
+    Unix Domain Socket path. If set, the server will bind to this Unix socket instead of a TCP port.
+    When using UDS, the host and port settings are ignored.
+    Example: '/tmp/speaches.sock'
+    """
     allow_origins: list[str] | None = None
     """
     https://docs.pydantic.dev/latest/concepts/pydantic_settings/#parsing-environment-variable-values
