@@ -12,6 +12,10 @@ tasks:
       - pytest -o log_cli=true -o log_cli_level=DEBUG {{.CLI_ARGS}}
     sources:
       - src/**/*.py
+  build:
+    desc: Build single executable binary using PyInstaller
+    cmds:
+      - python scripts/build_binary.py
   create-multi-arch-builder: docker buildx create --name main --driver=docker-container
   ci:
     cmds:
