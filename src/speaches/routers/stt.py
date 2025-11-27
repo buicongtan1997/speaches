@@ -71,8 +71,12 @@ def translate_file(
     model_card_data = get_model_card_data_or_raise(model)
     executor = find_executor_for_model_or_raise(model, model_card_data, executor_registry.translation)
 
-    vad_request = VadRequest(audio=audio, vad_options=DEFAULT_VAD_OPTIONS)
-    speech_segments = executor_registry.vad.model_manager.handle_vad_request(vad_request)
+    try:
+        vad_request = VadRequest(audio=audio, vad_options=DEFAULT_VAD_OPTIONS)
+        speech_segments = executor_registry.vad.model_manager.handle_vad_request(vad_request)
+    except Exception as e:
+        logger.warning(f"VAD failed, proceeding without speech segments: {e}")
+        speech_segments = []
 
     translation_request = TranslationRequest(
         audio=audio,
@@ -151,8 +155,12 @@ def transcribe_file(
         model, transcription_model_card_data, executor_registry.transcription
     )
 
-    vad_request = VadRequest(audio=audio, vad_options=DEFAULT_VAD_OPTIONS)
-    speech_segments = executor_registry.vad.model_manager.handle_vad_request(vad_request)
+    try:
+        vad_request = VadRequest(audio=audio, vad_options=DEFAULT_VAD_OPTIONS)
+        speech_segments = executor_registry.vad.model_manager.handle_vad_request(vad_request)
+    except Exception as e:
+        logger.warning(f"VAD failed, proceeding without speech segments: {e}")
+        speech_segments = []
 
     transcription_request = TranscriptionRequest(
         audio=audio,
