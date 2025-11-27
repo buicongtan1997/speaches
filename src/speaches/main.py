@@ -143,8 +143,8 @@ def create_app() -> FastAPI:
     app.include_router(realtime_ws_router)
 
     # HACK: move this elsewhere
-    app.get("/v1/realtime", include_in_schema=False)(lambda: RedirectResponse(url="/v1/realtime/"))
-    app.mount("/v1/realtime", StaticFiles(directory="realtime-console/dist", html=True))
+    # app.get("/v1/realtime", include_in_schema=False)(lambda: RedirectResponse(url="/v1/realtime/"))
+    # app.mount("/v1/realtime", StaticFiles(directory="realtime-console/dist", html=True))
 
     if config.allow_origins is not None:
         app.add_middleware(
