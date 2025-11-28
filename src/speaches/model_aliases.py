@@ -5,13 +5,18 @@ from typing import Annotated
 
 from pydantic import BeforeValidator, Field
 
-MODEL_ID_ALIASES_PATH = Path("model_aliases.json")  # TODO: make configurable
+# MODEL_ID_ALIASES_PATH = Path("model_aliases.json")  # TODO: make configurable
+
+model_aliases = {
+    "tts-1": "speaches-ai/Kokoro-82M-v1.0-ONNX",
+    "tts-1-hd": "speaches-ai/Kokoro-82M-v1.0-ONNX",
+    "whisper-1": "Systran/faster-whisper-large-v3"
+}
 
 
 @lru_cache
 def load_model_id_aliases() -> dict[str, str]:
-    return json.loads(MODEL_ID_ALIASES_PATH.read_text())
-
+    return model_aliases
 
 def resolve_model_id_alias(model_id: str) -> str:
     model_id_aliases = load_model_id_aliases()
